@@ -22,4 +22,5 @@ from backend.settings import MEDIA_ROOT, MEDIA_URL
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/',include('dj_auth_package.urls')),
+    path('stage/', include('stage.apis.urls')),
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)
