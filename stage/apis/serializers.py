@@ -13,6 +13,7 @@ class StageSerializer(serializers.ModelSerializer) :
     
     def to_representation(self, instance:Stage):
         data = super().to_representation(instance)
+        data['visitors_counter'] = instance.visitor_counter
         data['owner'] = {
             'id' : instance.owner.id,
             'full_name' : instance.owner.full_name,
