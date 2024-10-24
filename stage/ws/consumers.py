@@ -38,7 +38,8 @@ class StageConsumer(WebsocketConsumer) :
             self.stage.visitor_counter = total_counter
             self.stage.save()
             async_to_sync(self.channel_layer.group_send)(
-                self.GROUP,{
+                self.GROUP,
+                {
                     'type' : 'action',
                     'data' : {
                         'visitors' : total_counter
@@ -46,10 +47,18 @@ class StageConsumer(WebsocketConsumer) :
                 }
             )
 
-        elif action == 'close':
+        if action == 'close':
             self.stage.delete()
             self.close()
             return
+
+        async_to_sync(self.channel_layer.group_send)(
+                self.GROUP,
+                {
+                    'type' : 'action',
+                    'data' : json_data
+                }
+            )
 
     def action(self, data):
         self.send(text_data=json.dumps(data['data']))
